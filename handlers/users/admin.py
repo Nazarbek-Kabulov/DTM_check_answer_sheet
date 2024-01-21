@@ -4,14 +4,13 @@ from aiogram import types
 from data.config import ADMINS
 from loader import dp, db
 from aiogram.dispatcher import FSMContext
-from aiogram.types import Message
+from aiogram.types import Message, ContentType
 from aiogram.dispatcher.filters.builtin import Command
 
 
 @dp.message_handler(text='/alltestbooks', user_id=ADMINS)
 async def get_all_test_books(msg: types.Message):
     test_books = db.select_all_answers()
-    print(test_books)
     t_b = 'Bazadagi barcha test kitoblar:\n'
     num = 1
     for test_book in test_books:
@@ -26,6 +25,12 @@ async def answer_keys(msg: Message, state: FSMContext):
     await state.set_state('addtestbooknumber')
 
 
+@dp.message_handler(Command('deletedatabase'), user_id=ADMINS)
+async def delete_db(msg: Message):
+    db.delete_db()
+    await msg.answer("Baza o'chirib yuborildi")
+
+
 @dp.message_handler(state='addtestbooknumber')
 async def add_test_book_number(msg: Message, state: FSMContext):
     answer_key = msg.text
@@ -38,7 +43,7 @@ async def add_test_book_number(msg: Message, state: FSMContext):
         print(book_numbers)
     try:
         if len(book_num) == 7 and len(keys) == 90:
-            if book_num not in book_numbers:
+            if int(book_num) not in book_numbers:
                 db.add_answer(book_number=int(book_num), answers=keys)
                 await msg.reply('Muvaffaqqiyatli saqlandi  ✅.')
                 await state.finish()

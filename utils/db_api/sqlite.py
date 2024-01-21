@@ -64,6 +64,9 @@ class Database:
 
         return self.execute(sql, parameters=parameters, fetchone=True)
 
+    def delete_db(self):
+        self.execute("DELETE FROM TEST_ANSWERS WHERE TRUE", commit=True)
+
 def logger(statement):
     print(f"""
     Executing:

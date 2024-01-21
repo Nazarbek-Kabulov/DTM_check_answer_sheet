@@ -49,6 +49,8 @@ def find_book_number(image):
             # cv2.imshow('Equalized Image', equalized_book_num_img)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
+        else:
+            return '0000000'
     except UnboundLocalError:
         return '0000000'
 

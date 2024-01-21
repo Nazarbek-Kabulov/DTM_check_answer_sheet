@@ -19,19 +19,19 @@ async def any_type(message: Message):
     # Check if the file download was successful
     if document_path:
         # Call the answer_sheet function with the downloaded file's path
-        await message.answer('Please a wait!')
+        await message.answer('ILTIMOS KUTING !')
 
         result = answer_sheet(document_path.name)
         data = check_answer(result)
+        find_book_num = result.split(':')[0]
         # Check the result and send a reply
         if result == 'No result':
-            await message.reply(f'{result} 🤷‍♂️.\nBecause, image received incorrectly, please see "Sample images"!\nCommand  /imagesample')
+            await message.reply(f"Natija topilmadi  🤷‍♂️.\nSabab: Tasvir noto‘g‘ri formatda olingan !, 'Namuna rasmlar' ga qarang!\nBuyruq:  /imagesample")
         else:
-            await message.reply(f'Natija:\n{data}')
+            await message.reply(f'Test kitobi raqami:  {find_book_num}\n{data}')
     else:
         await message.reply('Failed to download the document. Please try again.')
 
     # Optionally, you can delete the downloaded file to free up storage space
     file_path = Path(document_path.name)
     file_path.unlink()
-
